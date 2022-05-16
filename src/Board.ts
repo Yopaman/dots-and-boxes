@@ -1,4 +1,4 @@
-interface Square {
+export interface Square {
     owner: string | null,
     linesOwners : {
         top: string | null,
@@ -8,7 +8,7 @@ interface Square {
     }
 }
 
-export default class Board {
+export class Board {
     board: Array<Array<Square>>
     height: number
     width: number
