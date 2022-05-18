@@ -2,6 +2,10 @@
     margin: auto;
 }
 
+game-board {
+    display: inline-block;
+}
+
 table {
     border-collapse: collapse;
     margin: auto;
@@ -10,9 +14,110 @@ table {
 td {
     width: 50px;
     height: 50px;
-    border: 1px solid black;
+    border: 1px solid rgb(206, 206, 206);
+    position: relative;
+
+    .dot {
+        display: inline-block;
+        border-radius: 50%;
+        width: 6px;
+        height: 6px;
+        background-color: black;
+        position: absolute;
+    }
+
+    .dot-top-left {
+        top: -3px;
+        left: -3px;
+    }
+
+    .dot-top-right {
+        top: -3px;
+        right: -3px;
+    }
+
+    .dot-bottom-left {
+        bottom: -3px;
+        left: -3px;
+    }
+
+    .dot-bottom-right {
+        bottom: -3px;
+        right: -3px;
+    }
+
+    .hitbox {
+        display: inline-block;
+        position: absolute;
+    }
+
+    .hitbox-top {
+        width: 90%;
+        height: 10%;
+        top: -1%;
+        right: 50%;
+        left: 50%;
+        transform: translate(-50%, 0);
+    }
+
+    .hitbox-bottom {
+        width: 90%;
+        height: 10%;
+        bottom: -1%;
+        right: 50%;
+        left: 50%;
+        transform: translate(-50%, 0);
+    }
+
+    .hitbox-right {
+        width: 10%;
+        height: 90%;
+        right: -1%;
+        top: 50%;
+        bottom: 50%;
+        transform: translate(0, -50%);
+    }
+
+    .hitbox-left {
+        width: 10%;
+        height: 90%;
+        left: -1%;
+        top: 50%;
+        bottom: 50%;
+        transform: translate(0, -50%);
+    }
+
 }
 
+
 td.clicked-left {
-    border-left: 3px solid black;
+    border-left: 2px solid black;
+}
+
+td.clicked-right {
+    border-right: 2px solid black;
+}
+
+td.clicked-bottom {
+    border-bottom: 2px solid black;
+}
+
+td.clicked-top {
+    border-top: 2px solid black;
+}
+
+td.selected-left {
+    border-left: 1px solid black;
+}
+
+td.selected-right {
+    border-right: 1px solid black;
+}
+
+td.selected-bottom {
+    border-bottom: 1px solid black;
+}
+
+td.selected-top {
+    border-top: 1px solid black;
 }
