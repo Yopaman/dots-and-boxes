@@ -1,4 +1,7 @@
+import Game from "../Game";
+
 export default class UI_Board extends HTMLElement {
+    game: Game
 
     get board_height() {
         if (this.hasAttribute("board-height")) {
@@ -27,12 +30,18 @@ export default class UI_Board extends HTMLElement {
                 hitbox.addEventListener("mouseleave", () => {
                     this.interractLine(Array.from(boxes[i].parentNode.children).indexOf(boxes[i]), Array.from(boxes[i].parentNode.parentNode.children).indexOf(boxes[i].parentElement), dir, "reset")
                 })
+                hitbox.addEventListener("click", () => {
+                    this.interractLine(Array.from(boxes[i].parentNode.children).indexOf(boxes[i]), Array.from(boxes[i].parentNode.parentNode.children).indexOf(boxes[i].parentElement), dir, "click")
+                })
             })
         }
     }
 
-    constructor(width: number, height: number) {
+    constructor(game: Game) {
         super()
+
+        this.game = game
+
         const body = document.createElement("tbody")
         for (let i = 0; i < this.board_height; i++) {
             const line = document.createElement("tr");
@@ -78,47 +87,93 @@ export default class UI_Board extends HTMLElement {
         this.appendChild(table)
     }
 
-    interractLine(x: number, y: number, direction: string, interractionType: string = "select") {
+    interractLine(x: number, y: number, direction: string, interractionType: string = "select", color: string = "none") {
         const typeString = interractionType == "select" ? "selected" : "clicked"
         const table: HTMLTableElement = this.getElementsByTagName("table")[0]
         const box = table.rows[y].cells[x]
-        switch (direction) {
-            case "right":
-                if ((x < this.board_width-1)) {
-                    const neighborBox = table.rows[y].cells[x+1]
-                    interractionType == "reset" ? ["selected"].forEach(c => neighborBox.classList.remove(c + "-left")) :
-                    neighborBox.classList.add(typeString + "-left")
-                }
-                interractionType == "reset" ? ["selected"].forEach(c => box.classList.remove(c + "-right")) :
-                box.classList.add(typeString + "-right")
-                break
-            case "left":
-                if ((x > 0)) {
-                    const neighborBox = table.rows[y].cells[x-1]
-                    interractionType == "reset" ? ["selected"].forEach(c => neighborBox.classList.remove(c + "-right")) :
-                    neighborBox.classList.add(typeString + "-right")
-                }
-                interractionType == "reset" ? ["selected"].forEach(c => box.classList.remove(c + "-left")) :
-                box.classList.add(typeString + "-left")
-                break
-            case "top":
-                if ((y > 0)) {
-                    const neighborBox = table.rows[y-1].cells[x]
-                    interractionType == "reset" ? ["selected"].forEach(c => neighborBox.classList.remove(c + "-bottom")) :
-                    neighborBox.classList.add(typeString + "-bottom")
-                }
-                interractionType == "reset" ? ["selected"].forEach(c => box.classList.remove(c + "-top")) :
-                box.classList.add(typeString + "-top")
-                break
-            case "bottom":
-                if ((y < this.board_height-1)) {
-                    const neighborBox = table.rows[y+1].cells[x]
-                    interractionType == "reset" ? ["selected"].forEach(c => neighborBox.classList.remove(c + "-top")) :
-                    neighborBox.classList.add(typeString + "-top")
-                }
-                interractionType == "reset" ? ["selected"].forEach(c => box.classList.remove(c + "-bottom")) :
-                box.classList.add(typeString + "-bottom")
-                break
+
+        if (interractionType == "click" && box.className.includes("selected-" + direction)) {
+            box.classList.remove("selected-" + direction)
+        }
+
+        if (!box.className.includes("clicked-" + direction)) {
+            switch (direction) {
+                case "right":
+                    if ((x < this.board_width-1)) {
+                        const neighborBox = table.rows[y].cells[x+1]
+
+                        if (interractionType == "click" && neighborBox.className.includes("selected-left")) {
+                            neighborBox.classList.remove("selected-left")
+                        }
+
+                        interractionType == "reset" ? ["selected"].forEach(c => neighborBox.classList.remove(c + "-left")) :
+                        neighborBox.classList.add(typeString + "-left") 
+
+                        if (interractionType == "click") {
+                            neighborBox.classList.add(color + "-left")
+                        }
+                    }
+                    interractionType == "reset" ? ["selected"].forEach(c => box.classList.remove(c + "-right")) :
+                    box.classList.add(typeString + "-right")
+                    break
+                case "left":
+                    if ((x > 0)) {
+                        const neighborBox = table.rows[y].cells[x-1]
+
+                        if (interractionType == "click" && neighborBox.className.includes("selected-right")) {
+                            neighborBox.classList.remove("selected-right")
+                        }
+
+                        interractionType == "reset" ? ["selected"].forEach(c => neighborBox.classList.remove(c + "-right")) :
+                        neighborBox.classList.add(typeString + "-right")
+
+                        if (interractionType == "click") {
+                            neighborBox.classList.add(color + "-right")
+                        }
+                    }
+                    interractionType == "reset" ? ["selected"].forEach(c => box.classList.remove(c + "-left")) :
+                    box.classList.add(typeString + "-left")
+                    break
+                case "top":
+                    if ((y > 0)) {
+                        const neighborBox = table.rows[y-1].cells[x]
+
+                        if (interractionType == "click" && neighborBox.className.includes("selected-bottom")) {
+                            neighborBox.classList.remove("selected-bottom")
+                        }
+
+                        interractionType == "reset" ? ["selected"].forEach(c => neighborBox.classList.remove(c + "-bottom")) :
+                        neighborBox.classList.add(typeString + "-bottom")
+
+                        if (interractionType == "click") {
+                            neighborBox.classList.add(color + "-bottom")
+                        }
+                    }
+                    interractionType == "reset" ? ["selected"].forEach(c => box.classList.remove(c + "-top")) :
+                    box.classList.add(typeString + "-top")
+                    break
+                case "bottom":
+                    if ((y < this.board_height-1)) {
+                        const neighborBox = table.rows[y+1].cells[x]
+
+                        if (interractionType == "click" && neighborBox.className.includes("selected-")) {
+                            neighborBox.classList.remove("selected-top")
+                        }
+
+                        interractionType == "reset" ? ["selected"].forEach(c => neighborBox.classList.remove(c + "-top")) :
+                        neighborBox.classList.add(typeString + "-top")
+
+                        if (interractionType == "click") {
+                            neighborBox.classList.add(color + "-top")
+                        }
+                    }
+                    interractionType == "reset" ? ["selected"].forEach(c => box.classList.remove(c + "-bottom")) :
+                    box.classList.add(typeString + "-bottom")
+                    break
+            }
+            if (interractionType == "click") {
+                box.classList.add(color + "-" + direction)
+            }
         }
     }
 }

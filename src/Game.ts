@@ -2,7 +2,8 @@ import { Board, Square } from "./Board";
 
 interface Player {
     name: string,
-    score: number
+    score: number,
+    color: string
 }
 
 export default class Game {
@@ -11,8 +12,11 @@ export default class Game {
     currentPlayer: number
 
     constructor(board: Board, ...players: string[]) {
+        const colors = ["blue", "red"]
+        let i = 0
         players.map(playerName => {
-            this.players.push({name: playerName, score: 0})
+            this.players.push({name: playerName, score: 0, color: colors[i]})
+            i++
         })
         this.currentPlayer = 0
     }
