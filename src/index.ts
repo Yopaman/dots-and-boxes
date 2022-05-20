@@ -12,4 +12,4 @@ const board = new Board(10,10)
 
 board.printBoard()
 
-ui_board.interractLine(2,0,"top","click","blue")
+ui_board.interractLine(2,0,"top","click","red")
