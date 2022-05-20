@@ -13,6 +13,7 @@ export default class Game {
 
     constructor(board: Board, ...players: string[]) {
         const colors = ["blue", "red"]
+        this.players = []
         let i = 0
         players.map(playerName => {
             this.players.push({name: playerName, score: 0, color: colors[i]})

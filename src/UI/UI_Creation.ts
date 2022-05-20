@@ -1,6 +1,16 @@
+import { Board } from "../Board";
+import UI_Board from "./UI_Board";
 import Game from "../Game";
 
 export default class UI_Creation extends HTMLElement {
+
+    connectedCallback() {
+        const submitButton: HTMLButtonElement = document.querySelector(".validate-button")
+        submitButton.addEventListener("click", () => {
+            this.createGame()
+        })
+    }
+
     constructor() {
         super()
 
@@ -46,6 +56,24 @@ export default class UI_Creation extends HTMLElement {
     }
 
     createGame() {
-        
+        const sizeInput: HTMLInputElement = document.querySelector(".size-input")
+        const boardSize = parseInt(sizeInput.value)
+        const board = new Board(boardSize, boardSize)
+
+        const player1: HTMLInputElement = document.querySelector(".player1-input")
+        const p1_name = player1.value
+        const player2: HTMLInputElement = document.querySelector(".player2-input")
+        const p2_name = player2.value
+
+        const overlay: HTMLDivElement = document.querySelector(".overlay")
+        overlay.style.display = "none"
+
+        const ui_board = document.createElement("game-board")
+        ui_board.setAttribute("board_width", boardSize.toString())
+        ui_board.setAttribute("board_height", boardSize.toString())
+        document.querySelector(".app").appendChild(ui_board)
+        customElements.define("game-board", UI_Board)
+
+        return new Game(board, p1_name, p2_name);
     }
 }

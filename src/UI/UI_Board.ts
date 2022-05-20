@@ -37,10 +37,8 @@ export default class UI_Board extends HTMLElement {
         }
     }
 
-    constructor(game: Game) {
+    constructor() {
         super()
-
-        this.game = game
 
         const body = document.createElement("tbody")
         for (let i = 0; i < this.board_height; i++) {
