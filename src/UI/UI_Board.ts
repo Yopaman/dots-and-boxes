@@ -25,13 +25,13 @@ export default class UI_Board extends HTMLElement {
             ["left", "right", "top", "bottom"].forEach(dir => {
                 const hitbox = boxes[i].querySelector(".hitbox-" + dir) 
                 hitbox.addEventListener("mouseenter", () => {
-                    this.interractLine(Array.from(boxes[i].parentNode.children).indexOf(boxes[i]), Array.from(boxes[i].parentNode.parentNode.children).indexOf(boxes[i].parentElement), dir, "select")
+                    this.interractLine(Array.from(boxes[i].parentNode.children).indexOf(boxes[i]), Array.from(boxes[i].parentNode.parentNode.children).indexOf(boxes[i].parentElement), dir, "select", this.game.players[this.game.currentPlayer].color)
                 })
                 hitbox.addEventListener("mouseleave", () => {
                     this.interractLine(Array.from(boxes[i].parentNode.children).indexOf(boxes[i]), Array.from(boxes[i].parentNode.parentNode.children).indexOf(boxes[i].parentElement), dir, "reset")
                 })
                 hitbox.addEventListener("click", () => {
-                    this.interractLine(Array.from(boxes[i].parentNode.children).indexOf(boxes[i]), Array.from(boxes[i].parentNode.parentNode.children).indexOf(boxes[i].parentElement), dir, "click")
+                    this.interractLine(Array.from(boxes[i].parentNode.children).indexOf(boxes[i]), Array.from(boxes[i].parentNode.parentNode.children).indexOf(boxes[i].parentElement), dir, "click", this.game.players[this.game.currentPlayer].color)
                 })
             })
         }

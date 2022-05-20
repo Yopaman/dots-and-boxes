@@ -2,11 +2,12 @@
     margin: auto;
     display: flex;
     flex-direction: column;
+    align-content: center;
 }
 
 game-board {
     display: inline-block;
-    width: 80%;
+    width: 100%;
 }
 
 table {

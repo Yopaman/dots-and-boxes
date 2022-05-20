@@ -69,11 +69,12 @@ export default class UI_Creation extends HTMLElement {
         overlay.style.display = "none"
 
         const ui_board = document.createElement("game-board")
-        ui_board.setAttribute("board_width", boardSize.toString())
-        ui_board.setAttribute("board_height", boardSize.toString())
+        ui_board.setAttribute("board-width", boardSize.toString())
+        ui_board.setAttribute("board-height", boardSize.toString())
         document.querySelector(".app").appendChild(ui_board)
         customElements.define("game-board", UI_Board)
 
-        return new Game(board, p1_name, p2_name);
+        const game = new Game(board, p1_name, p2_name);
+        UI_Board.prototype.game = game;
     }
 }
