@@ -2,6 +2,10 @@
 
 "Dot and Boxes" or "Pipopipette" in french is a two players game you can play with paper and pencil. I decided to recreate it using pure Typescript. Currently, you can only play offline, on the same computer. The main goal of this project is for me to practice Typescript, and have fun.
 
+## Rules
+
+The game is very simple. Each player can place a line between two dots. The goal is to close a square to get one point. When a player close a square, he can play again. The game finish when all boxes are closed. The player with the most points wins.
+
 ## Installation
 
 1. Clone this project
@@ -25,6 +29,7 @@ npm run build
 
 ## Roadmap
 
+- [ ] Add an end screen/end of game detection
 - [ ] Improve the UI
 - [ ] Make the UI responsive
 - [ ] Add an AI player
