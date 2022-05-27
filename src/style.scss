@@ -103,6 +103,8 @@ td {
 
 $blue: blue;
 $red: red;
+$blueChecked: #9692ff;
+$redChecked: #ff9792;
 
 td.clicked-left {
     border-left: 2px solid;
@@ -161,11 +163,11 @@ td.selected-top {
 }
 
 td.background-blue {
-    background-color: $blue;
+    background-color: $blueChecked;
 }
 
 td.background-red {
-    background-color: $red;
+    background-color: $redChecked;
 }
 
 .overlay {
@@ -233,4 +235,8 @@ td.background-red {
 .score-1, .score-2 {
     margin-left: 20px;
     margin-right: 20px;
+}
+
+.scores {
+    margin-bottom: 10px;
 }

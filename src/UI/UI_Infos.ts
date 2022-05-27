@@ -20,14 +20,21 @@ export default class UI_Infos extends HTMLElement {
         scoreDiv.appendChild(score2)
         container.appendChild(scoreDiv)
 
+        const currentPlayer = document.createElement("span")
+        currentPlayer.classList.add("current-player")
+        currentPlayer.innerHTML = "Au tour de " + this.game.players[this.game.currentPlayer].name + " de jouer"
+        container.appendChild(currentPlayer)
+
         this.appendChild(container)
     }
 
     updateScore() {
         const score1: HTMLSpanElement = document.querySelector(".score-1")
         const score2: HTMLSpanElement = document.querySelector(".score-2")
+        const currentPlayer: HTMLSpanElement = document.querySelector(".current-player")
 
         score1.innerHTML = this.game.players[0].name + " : " + this.game.players[0].score
         score2.innerHTML = this.game.players[1].name + " : " + this.game.players[1].score
+        currentPlayer.innerHTML = "Au tour de " + this.game.players[this.game.currentPlayer].name + " de jouer"
     }
 }

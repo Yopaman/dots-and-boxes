@@ -35,15 +35,12 @@ export class Game {
         return ((square.linesOwners.left != null) &&
         (square.linesOwners.top != null) &&
         (square.linesOwners.right != null) &&
-        (square.linesOwners.bottom != null)) && 
-        ((square.linesOwners.left) == (square.linesOwners.top)) &&
-        ((square.linesOwners.top) == (square.linesOwners.right)) &&
-        ((square.linesOwners.right) == (square.linesOwners.left)) &&
-        ((square.linesOwners.left) == (square.linesOwners.bottom))
+        (square.linesOwners.bottom != null))
     }
 
     calculateBoxes() {
         let turnScore = 0
+        let xy_arr = []
         console.log(this.board)
         for (let y = 0; y < this.board.height; y++) {
             for (let x = 0; x < this.board.width; x++) {
@@ -51,21 +48,24 @@ export class Game {
                     if (this.isSquareFull(this.board.board[y][x])) {
                         this.board.board[y][x].owner = this.players[this.currentPlayer].name
                         turnScore++
+                        xy_arr.push([x,y])
                     }
                 }
             }
         }
         console.log(turnScore)
-        return turnScore
+        return {score: turnScore, xy: xy_arr}
     }
 
     playTurn(x: number, y: number, direction: string) {
         this.playLine(x, y, direction, this.players[this.currentPlayer].name)
-        let turnScore: number = this.calculateBoxes()
+        let calculation = this.calculateBoxes()
+        let turnScore: number = calculation.score
         if (turnScore <= 0) {
             this.nextPlayer()
         } else {
             this.players[this.currentPlayer].score += turnScore
         }
+        return calculation.xy
     }
 }

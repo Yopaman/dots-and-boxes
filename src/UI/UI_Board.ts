@@ -37,10 +37,16 @@ export default class UI_Board extends HTMLElement {
                     const currentPlayer = this.game.players[this.game.currentPlayer]
                     console.log(currentPlayer)
                     this.interractLine(x, y, dir, "click", currentPlayer.color)
-                    this.game.playTurn(x, y, dir)
+                    const xy = this.game.playTurn(x, y, dir)
                     
                     const infos: UI_Infos = document.querySelector("game-infos")
                     infos.updateScore()
+                    if (xy != []) {
+                        for (let k = 0; k < xy.length; k++) {
+                            this.setBgColor(xy[k][0], xy[k][1], currentPlayer.color)
+                        }
+                    }
+                    
                 })
             })
         }
@@ -182,6 +188,12 @@ export default class UI_Board extends HTMLElement {
                 box.classList.add(color + "-" + direction)
             }
         }
+    }
+
+    setBgColor(x: number, y: number, color: string) {
+        const table: HTMLTableElement = this.getElementsByTagName("table")[0]
+        const box = table.rows[y].cells[x]
+        box.classList.add("background-" + color)
     }
 }
 
