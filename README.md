@@ -26,5 +26,6 @@ npm run build
 ## Roadmap
 
 - [ ] Improve the UI
+- [ ] Make the UI responsive
 - [ ] Add an AI player
 - [ ] Add online mode
