@@ -3,5 +3,8 @@
     "@parcel/transformer-sass": "^2.5.0",
     "parcel": "^2.5.0",
     "typescript": "^4.6.2"
+  },
+  "scripts": {
+    "dev": "npx parcel src/index.html"
   }
 }

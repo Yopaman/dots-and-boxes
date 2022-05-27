@@ -1,6 +1,7 @@
 import { Board } from "../Board";
 import UI_Board from "./UI_Board";
 import Game from "../Game";
+import UI_Infos from "./UI_Infos";
 
 export default class UI_Creation extends HTMLElement {
 
@@ -41,7 +42,7 @@ export default class UI_Creation extends HTMLElement {
         const sizeInput = document.createElement("input")
         sizeInput.classList.add("size-input")
         sizeInput.setAttribute("type", "number")
-        sizeInput.setAttribute("value", "10")
+        sizeInput.setAttribute("value", "5")
         sizeInput.setAttribute("min", "4")
         sizeInput.setAttribute("max", "20")
 
@@ -76,5 +77,12 @@ export default class UI_Creation extends HTMLElement {
 
         const game = new Game(board, p1_name, p2_name);
         UI_Board.prototype.game = game;
+
+        UI_Infos.prototype.game = game;
+
+        const ui_infos = document.createElement("game-infos")
+        customElements.define("game-infos", UI_Infos)
+        document.querySelector(".app").appendChild(ui_infos)
+        
     }
 }

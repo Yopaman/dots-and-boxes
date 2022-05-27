@@ -39,25 +39,22 @@ export class Board {
     }
 
     setLineOwner(x: number, y: number, direction: string, name: string) {
-        if (x != 0 || x != this.width) {
-            switch (direction) {
-                case "right":
-                    this.board[y][x].linesOwners.right = name
-                    this.board[y][x+1].linesOwners.left = name
-                    break
-                case "left":
-                    this.board[y][x].linesOwners.left = name
-                    this.board[y][x-1].linesOwners.right = name
-                    break
-                case "top":
-                    this.board[y][x].linesOwners.top = name
-                    this.board[y-1][x].linesOwners.bottom = name
-                case "bottom":
-                    this.board[y][x].linesOwners.bottom = name
-                    this.board[y+1][x].linesOwners.top = name
-            }
+        switch (direction) {
+            case "right":
+                this.board[y][x].linesOwners.right = name
+                if (x < this.width) this.board[y][x+1].linesOwners.left = name
+                break
+            case "left":
+                this.board[y][x].linesOwners.left = name
+                if (x > 0) this.board[y][x-1].linesOwners.right = name
+                break
+            case "top":
+                this.board[y][x].linesOwners.top = name
+                if (y > 0) this.board[y-1][x].linesOwners.bottom = name
+            case "bottom":
+                this.board[y][x].linesOwners.bottom = name
+                if (y < this.height) this.board[y+1][x].linesOwners.top = name
         }
-        
     }
 
     printBoard() {
