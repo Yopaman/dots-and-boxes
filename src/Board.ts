@@ -42,7 +42,7 @@ export class Board {
         switch (direction) {
             case "right":
                 this.board[y][x].linesOwners.right = name
-                if (x < this.width) this.board[y][x+1].linesOwners.left = name
+                if (x < this.width - 1) this.board[y][x+1].linesOwners.left = name
                 break
             case "left":
                 this.board[y][x].linesOwners.left = name
@@ -51,9 +51,11 @@ export class Board {
             case "top":
                 this.board[y][x].linesOwners.top = name
                 if (y > 0) this.board[y-1][x].linesOwners.bottom = name
+                break
             case "bottom":
                 this.board[y][x].linesOwners.bottom = name
-                if (y < this.height) this.board[y+1][x].linesOwners.top = name
+                if (y < this.height - 1) this.board[y+1][x].linesOwners.top = name
+                break
         }
     }
 

@@ -1,4 +1,5 @@
-import Game from "../Game";
+import {Game} from "../Game";
+import UI_Infos from "./UI_Infos";
 
 export default class UI_Board extends HTMLElement {
     game: Game
@@ -31,7 +32,15 @@ export default class UI_Board extends HTMLElement {
                     this.interractLine(Array.from(boxes[i].parentNode.children).indexOf(boxes[i]), Array.from(boxes[i].parentNode.parentNode.children).indexOf(boxes[i].parentElement), dir, "reset")
                 })
                 hitbox.addEventListener("click", () => {
-                    this.interractLine(Array.from(boxes[i].parentNode.children).indexOf(boxes[i]), Array.from(boxes[i].parentNode.parentNode.children).indexOf(boxes[i].parentElement), dir, "click", this.game.players[this.game.currentPlayer].color)
+                    const x = Array.from(boxes[i].parentNode.children).indexOf(boxes[i])
+                    const y = Array.from(boxes[i].parentNode.parentNode.children).indexOf(boxes[i].parentElement)
+                    const currentPlayer = this.game.players[this.game.currentPlayer]
+                    console.log(currentPlayer)
+                    this.interractLine(x, y, dir, "click", currentPlayer.color)
+                    this.game.playTurn(x, y, dir)
+                    
+                    const infos: UI_Infos = document.querySelector("game-infos")
+                    infos.updateScore()
                 })
             })
         }

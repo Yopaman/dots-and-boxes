@@ -1,17 +1,18 @@
 import { Board, Square } from "./Board";
 
-interface Player {
+export interface Player {
     name: string,
     score: number,
     color: string
 }
 
-export default class Game {
+export class Game {
     board: Board
     players: Array<Player>
     currentPlayer: number
 
     constructor(board: Board, ...players: string[]) {
+        this.board = board;
         const colors = ["blue", "red"]
         this.players = []
         let i = 0
@@ -31,34 +32,40 @@ export default class Game {
     }
 
     isSquareFull(square: Square): boolean {
-        return (square.linesOwners.left != null) &&
+        return ((square.linesOwners.left != null) &&
         (square.linesOwners.top != null) &&
         (square.linesOwners.right != null) &&
-        (square.linesOwners.bottom != null)
+        (square.linesOwners.bottom != null)) && 
+        ((square.linesOwners.left) == (square.linesOwners.top)) &&
+        ((square.linesOwners.top) == (square.linesOwners.right)) &&
+        ((square.linesOwners.right) == (square.linesOwners.left)) &&
+        ((square.linesOwners.left) == (square.linesOwners.bottom))
     }
 
     calculateBoxes() {
         let turnScore = 0
+        console.log(this.board)
         for (let y = 0; y < this.board.height; y++) {
             for (let x = 0; x < this.board.width; x++) {
-                if (this.board[y][x].owner == null) {
-                    if (this.isSquareFull(this.board[y][x])) {
-                        this.board[y][x].owner = this.currentPlayer
+                if (this.board.board[y][x].owner == null) {
+                    if (this.isSquareFull(this.board.board[y][x])) {
+                        this.board.board[y][x].owner = this.players[this.currentPlayer].name
                         turnScore++
                     }
                 }
             }
         }
+        console.log(turnScore)
         return turnScore
     }
 
-    playTurn(player: Player, x: number, y: number, direction: string) {
-        this.playLine(x, y, direction, player.name)
-        let turnScore = this.calculateBoxes()
+    playTurn(x: number, y: number, direction: string) {
+        this.playLine(x, y, direction, this.players[this.currentPlayer].name)
+        let turnScore: number = this.calculateBoxes()
         if (turnScore <= 0) {
             this.nextPlayer()
         } else {
-            player.score += turnScore
+            this.players[this.currentPlayer].score += turnScore
         }
     }
 }
