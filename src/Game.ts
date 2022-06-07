@@ -38,10 +38,34 @@ export class Game {
         (square.linesOwners.bottom != null))
     }
 
+    isGameFinished() {
+        const boxesCount = this.board.width * this.board.height
+        let filledBoxesCount = 0
+        for (let y = 0; y < this.board.height; y++) {
+            for (let x = 0; x < this.board.width; x++) {
+                if (this.board.board[y][x].owner != null) {
+                    filledBoxesCount++
+                } else {
+                    return false
+                }
+            }
+        }
+        return filledBoxesCount == boxesCount
+    }
+
+    getWinner(): string | null {
+        if (this.players[0].score > this.players[1].score) {
+            return this.players[0].name
+        } else if (this.players[1].score > this.players[0].score) {
+            return this.players[1].name
+        } else {
+            return null
+        }
+    }
+
     calculateBoxes() {
         let turnScore = 0
         let xy_arr = []
-        console.log(this.board)
         for (let y = 0; y < this.board.height; y++) {
             for (let x = 0; x < this.board.width; x++) {
                 if (this.board.board[y][x].owner == null) {
@@ -53,7 +77,6 @@ export class Game {
                 }
             }
         }
-        console.log(turnScore)
         return {score: turnScore, xy: xy_arr}
     }
 

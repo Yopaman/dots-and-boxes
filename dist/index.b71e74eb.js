@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"8wcER":[function(require,module,exports) {
+})({"7mgxS":[function(require,module,exports) {
 "use strict";
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -223,7 +223,7 @@ function _arrayLikeToArray(arr, len) {
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
     return arr2;
 }
-/* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE */ /*::
+/* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser */ /*::
 import type {
   HMRAsset,
   HMRMessage,
@@ -250,11 +250,18 @@ interface ParcelModule {
     _disposeCallbacks: Array<(mixed) => void>,
   |};
 }
+interface ExtensionContext {
+  runtime: {|
+    reload(): void,
+  |};
+}
 declare var module: {bundle: ParcelRequire, ...};
 declare var HMR_HOST: string;
 declare var HMR_PORT: string;
 declare var HMR_ENV_HASH: string;
 declare var HMR_SECURE: boolean;
+declare var chrome: ExtensionContext;
+declare var browser: ExtensionContext;
 */ var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
 function Module(moduleName) {
@@ -309,7 +316,12 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
                     var id = assetsToAccept[i][1];
                     if (!acceptedAssets[id]) hmrAcceptRun(assetsToAccept[i][0], id);
                 }
-            } else window.location.reload();
+            } else if ('reload' in location) location.reload();
+            else {
+                // Web extension context
+                var ext = typeof chrome === 'undefined' ? typeof browser === 'undefined' ? null : browser : chrome;
+                if (ext && ext.runtime && ext.runtime.reload) ext.runtime.reload();
+            }
         }
         if (data.type === 'error') {
             // Log parcel errors to console
@@ -403,7 +415,7 @@ function reloadCSS() {
             var href = links[i].getAttribute('href');
             var hostname = getHostname();
             var servedFromHMRServer = hostname === 'localhost' ? new RegExp('^(https?:\\/\\/(0.0.0.0|127.0.0.1)|localhost):' + getPort()).test(href) : href.indexOf(hostname + ':' + getPort());
-            var absolute = /^https?:\/\//i.test(href) && href.indexOf(window.location.origin) !== 0 && !servedFromHMRServer;
+            var absolute = /^https?:\/\//i.test(href) && href.indexOf(location.origin) !== 0 && !servedFromHMRServer;
             if (!absolute) updateLink(links[i]);
         }
         cssTimeout = null;
@@ -624,7 +636,7 @@ class UI_Creation extends HTMLElement {
 }
 exports.default = UI_Creation;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../Board":"4daYq","../Game":"TyEjs","./UI_Board":"jFBjG","./UI_Infos":"7zNnw"}],"4daYq":[function(require,module,exports) {
+},{"../Board":"4daYq","./UI_Board":"jFBjG","../Game":"TyEjs","./UI_Infos":"7zNnw","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4daYq":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Board", ()=>Board
@@ -682,74 +694,11 @@ class Board {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"TyEjs":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Game", ()=>Game
-);
-class Game {
-    constructor(board, ...players){
-        this.board = board;
-        const colors = [
-            "blue",
-            "red"
-        ];
-        this.players = [];
-        let i = 0;
-        players.map((playerName)=>{
-            this.players.push({
-                name: playerName,
-                score: 0,
-                color: colors[i]
-            });
-            i++;
-        });
-        this.currentPlayer = 0;
-    }
-    playLine(x, y, direction, name) {
-        this.board.setLineOwner(x, y, direction, name);
-    }
-    nextPlayer() {
-        this.currentPlayer != this.players.length - 1 ? this.currentPlayer++ : this.currentPlayer = 0;
-    }
-    isSquareFull(square) {
-        return square.linesOwners.left != null && square.linesOwners.top != null && square.linesOwners.right != null && square.linesOwners.bottom != null;
-    }
-    calculateBoxes() {
-        let turnScore = 0;
-        let xy_arr = [];
-        console.log(this.board);
-        for(let y = 0; y < this.board.height; y++)for(let x = 0; x < this.board.width; x++){
-            if (this.board.board[y][x].owner == null) {
-                if (this.isSquareFull(this.board.board[y][x])) {
-                    this.board.board[y][x].owner = this.players[this.currentPlayer].name;
-                    turnScore++;
-                    xy_arr.push([
-                        x,
-                        y
-                    ]);
-                }
-            }
-        }
-        console.log(turnScore);
-        return {
-            score: turnScore,
-            xy: xy_arr
-        };
-    }
-    playTurn(x, y, direction) {
-        this.playLine(x, y, direction, this.players[this.currentPlayer].name);
-        let calculation = this.calculateBoxes();
-        let turnScore = calculation.score;
-        if (turnScore <= 0) this.nextPlayer();
-        else this.players[this.currentPlayer].score += turnScore;
-        return calculation.xy;
-    }
-}
-
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jFBjG":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+var _uiEnd = require("./UI_End");
+var _uiEndDefault = parcelHelpers.interopDefault(_uiEnd);
 class UI_Board extends HTMLElement {
     get board_height() {
         if (this.hasAttribute("board-height")) return parseInt(this.getAttribute("board-height"));
@@ -778,12 +727,17 @@ class UI_Board extends HTMLElement {
                 const x = Array.from(boxes[i].parentNode.children).indexOf(boxes[i]);
                 const y = Array.from(boxes[i].parentNode.parentNode.children).indexOf(boxes[i].parentElement);
                 const currentPlayer = this.game.players[this.game.currentPlayer];
-                console.log(currentPlayer);
                 this.interractLine(x, y, dir, "click", currentPlayer.color);
                 const xy = this.game.playTurn(x, y, dir);
                 const infos = document.querySelector("game-infos");
                 infos.updateScore();
                 if (xy != []) for(let k = 0; k < xy.length; k++)this.setBgColor(xy[k][0], xy[k][1], currentPlayer.color);
+                if (this.game.isGameFinished()) {
+                    const endScreen = document.createElement("end-screen");
+                    document.querySelector("body").appendChild(endScreen);
+                    customElements.define("end-screen", _uiEndDefault.default);
+                    _uiEndDefault.default.prototype.setWinner(this.game.getWinner());
+                }
             });
         });
     }
@@ -906,6 +860,115 @@ class UI_Board extends HTMLElement {
 }
 exports.default = UI_Board;
 
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./UI_End":"cB2E3"}],"cB2E3":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class UI_End extends HTMLElement {
+    connectedCallback() {
+        const replayButton = document.querySelector(".replay-button");
+        replayButton.addEventListener("click", ()=>{});
+    }
+    constructor(){
+        super();
+        const overlay = document.createElement("div");
+        overlay.classList.add("overlay");
+        const container = document.createElement("div");
+        container.classList.add("form-container");
+        const endText = document.createElement("h1");
+        endText.classList.add("end-text");
+        const replayButton = document.createElement("button");
+        replayButton.classList.add("replay-button");
+        replayButton.appendChild(document.createTextNode("Rejouer"));
+        container.appendChild(endText);
+        container.appendChild(replayButton);
+        overlay.appendChild(container);
+        this.appendChild(overlay);
+    }
+    setWinner(name) {
+        const endText = document.querySelector(".end-text");
+        if (name == null) endText.appendChild(document.createTextNode("Égalité"));
+        else endText.appendChild(document.createTextNode("Victoire de " + name));
+    }
+}
+exports.default = UI_End;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"TyEjs":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Game", ()=>Game
+);
+class Game {
+    constructor(board, ...players){
+        this.board = board;
+        const colors = [
+            "blue",
+            "red"
+        ];
+        this.players = [];
+        let i = 0;
+        players.map((playerName)=>{
+            this.players.push({
+                name: playerName,
+                score: 0,
+                color: colors[i]
+            });
+            i++;
+        });
+        this.currentPlayer = 0;
+    }
+    playLine(x, y, direction, name) {
+        this.board.setLineOwner(x, y, direction, name);
+    }
+    nextPlayer() {
+        this.currentPlayer != this.players.length - 1 ? this.currentPlayer++ : this.currentPlayer = 0;
+    }
+    isSquareFull(square) {
+        return square.linesOwners.left != null && square.linesOwners.top != null && square.linesOwners.right != null && square.linesOwners.bottom != null;
+    }
+    isGameFinished() {
+        const boxesCount = this.board.width * this.board.height;
+        let filledBoxesCount = 0;
+        for(let y = 0; y < this.board.height; y++)for(let x = 0; x < this.board.width; x++){
+            if (this.board.board[y][x].owner != null) filledBoxesCount++;
+            else return false;
+        }
+        return filledBoxesCount == boxesCount;
+    }
+    getWinner() {
+        if (this.players[0].score > this.players[1].score) return this.players[0].name;
+        else if (this.players[1].score > this.players[0].score) return this.players[1].name;
+        else return null;
+    }
+    calculateBoxes() {
+        let turnScore = 0;
+        let xy_arr = [];
+        for(let y = 0; y < this.board.height; y++)for(let x = 0; x < this.board.width; x++){
+            if (this.board.board[y][x].owner == null) {
+                if (this.isSquareFull(this.board.board[y][x])) {
+                    this.board.board[y][x].owner = this.players[this.currentPlayer].name;
+                    turnScore++;
+                    xy_arr.push([
+                        x,
+                        y
+                    ]);
+                }
+            }
+        }
+        return {
+            score: turnScore,
+            xy: xy_arr
+        };
+    }
+    playTurn(x, y, direction) {
+        this.playLine(x, y, direction, this.players[this.currentPlayer].name);
+        let calculation = this.calculateBoxes();
+        let turnScore = calculation.score;
+        if (turnScore <= 0) this.nextPlayer();
+        else this.players[this.currentPlayer].score += turnScore;
+        return calculation.xy;
+    }
+}
+
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7zNnw":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -942,6 +1005,6 @@ class UI_Infos extends HTMLElement {
 }
 exports.default = UI_Infos;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["8wcER","h7u1C"], "h7u1C", "parcelRequire94c2")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["7mgxS","h7u1C"], "h7u1C", "parcelRequire94c2")
 
 //# sourceMappingURL=index.b71e74eb.js.map
