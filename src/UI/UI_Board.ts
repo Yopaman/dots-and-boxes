@@ -49,7 +49,7 @@ export default class UI_Board extends HTMLElement {
 
                     if (this.game.isGameFinished()) {
                         const endScreen = document.createElement("end-screen")
-                        document.querySelector("body").appendChild(endScreen)
+                        document.querySelector(".app").appendChild(endScreen)
                         customElements.define("end-screen", UI_End)
                         UI_End.prototype.setWinner(this.game.getWinner())
                     }

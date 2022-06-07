@@ -8,7 +8,7 @@ export default class UI_End extends HTMLElement {
     connectedCallback() {
         const replayButton: HTMLButtonElement = document.querySelector(".replay-button")
         replayButton.addEventListener("click", () => {
-
+            this.replay()
         })
     }
 
@@ -43,4 +43,9 @@ export default class UI_End extends HTMLElement {
             endText.appendChild(document.createTextNode("Victoire de " + name))
         }
     }
+
+    replay() {
+        window.location.reload()
+    }
+
 }

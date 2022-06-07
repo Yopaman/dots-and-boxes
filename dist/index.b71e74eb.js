@@ -734,7 +734,7 @@ class UI_Board extends HTMLElement {
                 if (xy != []) for(let k = 0; k < xy.length; k++)this.setBgColor(xy[k][0], xy[k][1], currentPlayer.color);
                 if (this.game.isGameFinished()) {
                     const endScreen = document.createElement("end-screen");
-                    document.querySelector("body").appendChild(endScreen);
+                    document.querySelector(".app").appendChild(endScreen);
                     customElements.define("end-screen", _uiEndDefault.default);
                     _uiEndDefault.default.prototype.setWinner(this.game.getWinner());
                 }
@@ -866,7 +866,9 @@ parcelHelpers.defineInteropFlag(exports);
 class UI_End extends HTMLElement {
     connectedCallback() {
         const replayButton = document.querySelector(".replay-button");
-        replayButton.addEventListener("click", ()=>{});
+        replayButton.addEventListener("click", ()=>{
+            this.replay();
+        });
     }
     constructor(){
         super();
@@ -888,6 +890,9 @@ class UI_End extends HTMLElement {
         const endText = document.querySelector(".end-text");
         if (name == null) endText.appendChild(document.createTextNode("Égalité"));
         else endText.appendChild(document.createTextNode("Victoire de " + name));
+    }
+    replay() {
+        window.location.reload();
     }
 }
 exports.default = UI_End;
