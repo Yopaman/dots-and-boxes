@@ -921,6 +921,9 @@ class Game {
         });
         this.currentPlayer = 0;
     }
+    isLinePlayed(x, y, direction) {
+        return this.board.board[y][x].linesOwners[direction] != null;
+    }
     playLine(x, y, direction, name) {
         this.board.setLineOwner(x, y, direction, name);
     }
@@ -965,12 +968,14 @@ class Game {
         };
     }
     playTurn(x, y, direction) {
-        this.playLine(x, y, direction, this.players[this.currentPlayer].name);
-        let calculation = this.calculateBoxes();
-        let turnScore = calculation.score;
-        if (turnScore <= 0) this.nextPlayer();
-        else this.players[this.currentPlayer].score += turnScore;
-        return calculation.xy;
+        if (!this.isLinePlayed(x, y, direction)) {
+            this.playLine(x, y, direction, this.players[this.currentPlayer].name);
+            let calculation = this.calculateBoxes();
+            let turnScore = calculation.score;
+            if (turnScore <= 0) this.nextPlayer();
+            else this.players[this.currentPlayer].score += turnScore;
+            return calculation.xy;
+        } else return [];
     }
 }
 

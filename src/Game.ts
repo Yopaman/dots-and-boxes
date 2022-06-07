@@ -23,6 +23,10 @@ export class Game {
         this.currentPlayer = 0
     }
 
+    isLinePlayed(x: number, y: number, direction: string) {
+        return this.board.board[y][x].linesOwners[direction] != null
+    }
+
     playLine(x: number, y: number, direction: string, name: string) {
         this.board.setLineOwner(x,y,direction,name)
     }
@@ -81,14 +85,19 @@ export class Game {
     }
 
     playTurn(x: number, y: number, direction: string) {
-        this.playLine(x, y, direction, this.players[this.currentPlayer].name)
-        let calculation = this.calculateBoxes()
-        let turnScore: number = calculation.score
-        if (turnScore <= 0) {
-            this.nextPlayer()
+        if (!this.isLinePlayed(x,y,direction)) {
+            this.playLine(x, y, direction, this.players[this.currentPlayer].name)
+            let calculation = this.calculateBoxes()
+            let turnScore: number = calculation.score
+            if (turnScore <= 0) {
+                this.nextPlayer()
+            } else {
+                this.players[this.currentPlayer].score += turnScore
+            }
+            return calculation.xy
         } else {
-            this.players[this.currentPlayer].score += turnScore
+            return []
         }
-        return calculation.xy
+        
     }
 }
