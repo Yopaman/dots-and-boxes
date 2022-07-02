@@ -6,8 +6,8 @@ import UI_Infos from "./UI_Infos";
 export default class UI_End extends HTMLElement {
 
     connectedCallback() {
-        const replayButton: HTMLButtonElement = document.querySelector(".replay-button")
-        replayButton.addEventListener("click", () => {
+        const replayButton: HTMLButtonElement | null = document.querySelector(".replay-button")
+        replayButton!.addEventListener("click", () => {
             this.replay()
         })
     }
@@ -38,9 +38,9 @@ export default class UI_End extends HTMLElement {
     setWinner(name: string | null) {
         const endText = document.querySelector(".end-text")
         if (name == null) {
-            endText.appendChild(document.createTextNode("Égalité"))
+            endText!.appendChild(document.createTextNode("Égalité"))
         } else {
-            endText.appendChild(document.createTextNode("Victoire de " + name))
+            endText!.appendChild(document.createTextNode("Victoire de " + name))
         }
     }
 

@@ -29,12 +29,12 @@ export default class UI_Infos extends HTMLElement {
     }
 
     updateScore() {
-        const score1: HTMLSpanElement = document.querySelector(".score-1")
-        const score2: HTMLSpanElement = document.querySelector(".score-2")
-        const currentPlayer: HTMLSpanElement = document.querySelector(".current-player")
+        const score1: HTMLSpanElement | null = document.querySelector(".score-1")
+        const score2: HTMLSpanElement | null = document.querySelector(".score-2")
+        const currentPlayer: HTMLSpanElement | null = document.querySelector(".current-player")
 
-        score1.innerHTML = this.game.players[0].name + " : " + this.game.players[0].score
-        score2.innerHTML = this.game.players[1].name + " : " + this.game.players[1].score
-        currentPlayer.innerHTML = "Au tour de " + this.game.players[this.game.currentPlayer].name + " de jouer"
+        score1!.innerHTML = this.game.players[0].name + " : " + this.game.players[0].score
+        score2!.innerHTML = this.game.players[1].name + " : " + this.game.players[1].score
+        currentPlayer!.innerHTML = "Au tour de " + this.game.players[this.game.currentPlayer].name + " de jouer"
     }
 }

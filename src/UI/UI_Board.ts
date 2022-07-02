@@ -7,7 +7,7 @@ export default class UI_Board extends HTMLElement {
 
     get board_height() {
         if (this.hasAttribute("board-height")) {
-            return parseInt(this.getAttribute("board-height"))
+            return parseInt(this.getAttribute("board-height")!)
         } else {
             return 10;
         }
@@ -15,7 +15,7 @@ export default class UI_Board extends HTMLElement {
 
     get board_width() {
         if (this.hasAttribute("board-width")) {
-            return parseInt(this.getAttribute("board-width"))
+            return parseInt(this.getAttribute("board-width")!)
         } else {
             return 10;
         }
@@ -26,21 +26,21 @@ export default class UI_Board extends HTMLElement {
         for (let i = 0; i < boxes.length; i++) {
             ["left", "right", "top", "bottom"].forEach(dir => {
                 const hitbox = boxes[i].querySelector(".hitbox-" + dir) 
-                hitbox.addEventListener("mouseenter", () => {
-                    this.interractLine(Array.from(boxes[i].parentNode.children).indexOf(boxes[i]), Array.from(boxes[i].parentNode.parentNode.children).indexOf(boxes[i].parentElement), dir, "select", this.game.players[this.game.currentPlayer].color)
+                hitbox!.addEventListener("mouseenter", () => {
+                    this.interractLine(Array.from(boxes[i].parentNode!.children).indexOf(boxes[i]), Array.from(boxes[i].parentNode!.parentNode!.children).indexOf(boxes[i].parentElement!), dir, "select", this.game.players[this.game.currentPlayer].color)
                 })
-                hitbox.addEventListener("mouseleave", () => {
-                    this.interractLine(Array.from(boxes[i].parentNode.children).indexOf(boxes[i]), Array.from(boxes[i].parentNode.parentNode.children).indexOf(boxes[i].parentElement), dir, "reset")
+                hitbox!.addEventListener("mouseleave", () => {
+                    this.interractLine(Array.from(boxes[i].parentNode!.children).indexOf(boxes[i]), Array.from(boxes[i].parentNode!.parentNode!.children).indexOf(boxes[i].parentElement!), dir, "reset")
                 })
-                hitbox.addEventListener("click", () => {
-                    const x = Array.from(boxes[i].parentNode.children).indexOf(boxes[i])
-                    const y = Array.from(boxes[i].parentNode.parentNode.children).indexOf(boxes[i].parentElement)
+                hitbox!.addEventListener("click", () => {
+                    const x = Array.from(boxes[i].parentNode!.children).indexOf(boxes[i])
+                    const y = Array.from(boxes[i].parentNode!.parentNode!.children).indexOf(boxes[i].parentElement!)
                     const currentPlayer = this.game.players[this.game.currentPlayer]
                     this.interractLine(x, y, dir, "click", currentPlayer.color)
                     const xy = this.game.playTurn(x, y, dir)
                     
-                    const infos: UI_Infos = document.querySelector("game-infos")
-                    infos.updateScore()
+                    const infos: UI_Infos | null = document.querySelector("game-infos")
+                    infos!.updateScore()
                     if (xy != []) {
                         for (let k = 0; k < xy.length; k++) {
                             this.setBgColor(xy[k][0], xy[k][1], currentPlayer.color)
@@ -49,7 +49,7 @@ export default class UI_Board extends HTMLElement {
 
                     if (this.game.isGameFinished()) {
                         const endScreen = document.createElement("end-screen")
-                        document.querySelector(".app").appendChild(endScreen)
+                        document.querySelector(".app")!.appendChild(endScreen)
                         customElements.define("end-screen", UI_End)
                         UI_End.prototype.setWinner(this.game.getWinner())
                     }

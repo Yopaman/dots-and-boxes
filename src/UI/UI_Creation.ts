@@ -6,8 +6,8 @@ import UI_Infos from "./UI_Infos";
 export default class UI_Creation extends HTMLElement {
 
     connectedCallback() {
-        const submitButton: HTMLButtonElement = document.querySelector(".validate-button")
-        submitButton.addEventListener("click", () => {
+        const submitButton = document.querySelector(".validate-button")
+        submitButton!.addEventListener("click", () => {
             this.createGame()
         })
     }
@@ -57,22 +57,22 @@ export default class UI_Creation extends HTMLElement {
     }
 
     createGame() {
-        const sizeInput: HTMLInputElement = document.querySelector(".size-input")
-        const boardSize = parseInt(sizeInput.value)
+        const sizeInput: HTMLInputElement | null = document.querySelector(".size-input")
+        const boardSize = parseInt(sizeInput!.value)
         const board = new Board(boardSize, boardSize)
 
-        const player1: HTMLInputElement = document.querySelector(".player1-input")
-        const p1_name = player1.value
-        const player2: HTMLInputElement = document.querySelector(".player2-input")
-        const p2_name = player2.value
+        const player1: HTMLInputElement | null = document.querySelector(".player1-input")
+        const p1_name = player1!.value
+        const player2: HTMLInputElement | null = document.querySelector(".player2-input")
+        const p2_name = player2!.value
 
-        const overlay: HTMLDivElement = document.querySelector(".overlay")
-        overlay.style.display = "none"
+        const overlay: HTMLDivElement | null = document.querySelector(".overlay")
+        overlay!.style.display = "none"
 
         const ui_board = document.createElement("game-board")
         ui_board.setAttribute("board-width", boardSize.toString())
         ui_board.setAttribute("board-height", boardSize.toString())
-        document.querySelector(".app").appendChild(ui_board)
+        document.querySelector(".app")!.appendChild(ui_board)
         customElements.define("game-board", UI_Board)
 
         const game = new Game(board, p1_name, p2_name);
@@ -82,7 +82,7 @@ export default class UI_Creation extends HTMLElement {
 
         const ui_infos = document.createElement("game-infos")
         customElements.define("game-infos", UI_Infos)
-        document.querySelector(".app").appendChild(ui_infos)
+        document.querySelector(".app")!.appendChild(ui_infos)
         
     }
 }
