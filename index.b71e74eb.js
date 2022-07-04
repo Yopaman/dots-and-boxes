@@ -581,21 +581,38 @@ class UI_Creation extends HTMLElement {
         super();
         const overlay = document.createElement("div");
         overlay.classList.add("overlay");
+        // Tailwind
+        overlay.classList.add("flex", "h-screen", "w-screen", "bg-black", "bg-opacity-50", "backdrop-blur-lg", "z-0");
         const container = document.createElement("div");
         container.classList.add("form-container");
+        // Tailwind
+        container.classList.add("container", "relative", "flex", "flex-col", "justify-center", "items-center", "m-auto", "w-full", "sm:w-1/2", "h-2/5", "sm:h-1/2", "bg-white", "shadow-sm", "rounded-md");
+        const title = document.createElement("h1");
+        title.classList.add("creation-title");
+        title.appendChild(document.createTextNode("Créer une partie"));
+        //Tailwind
+        title.classList.add("text-3xl", "font-bold", "absolute", "top-3");
         const player1Input = document.createElement("input");
         player1Input.classList.add("player1-input");
         player1Input.setAttribute("value", "Joueur 1");
+        // Tailwind
+        player1Input.classList.add("pl-1", "border", "rounded-md", "text-slate-600", "border-slate-300", "h-10", "shadow-sm", "w-1/2", "mr-2");
         const player2Input = document.createElement("input");
         player2Input.classList.add("player2-input");
         player2Input.setAttribute("value", "Joueur 2");
+        // Tailwind
+        player2Input.classList.add("pl-1", "border", "rounded-md", "text-slate-600", "border-slate-300", "h-10", "shadow-sm", "w-1/2", "ml-2");
         const validateButton = document.createElement("button");
         validateButton.classList.add("validate-button");
         validateButton.appendChild(document.createTextNode("Valider"));
+        // Tailwind
+        validateButton.classList.add("absolute", "bottom-3", "h-10", "w-2/4", "bg-blue-600", "text-white", "rounded-md", "hover:bg-blue-700", "active:bg-blue-800", "shadow-md", "hover:shadow-lg");
         const inputsContainer = document.createElement("div");
         inputsContainer.classList.add("inputs-container");
         inputsContainer.appendChild(player1Input);
         inputsContainer.appendChild(player2Input);
+        // Tailwind
+        inputsContainer.classList.add("w-3/4", "mb-5", "flex", "flex-row", "justify-between");
         const sizeLabel = document.createElement("label");
         sizeLabel.appendChild(document.createTextNode("Taille de la grille :"));
         const sizeInput = document.createElement("input");
@@ -604,6 +621,9 @@ class UI_Creation extends HTMLElement {
         sizeInput.setAttribute("value", "5");
         sizeInput.setAttribute("min", "4");
         sizeInput.setAttribute("max", "20");
+        // Tailwind
+        sizeInput.classList.add("h-10", "w-1/4", "border", "rounded-md", "border-slate-300", "pl-1", "text-slate-600", "mb-5");
+        container.appendChild(title);
         container.appendChild(inputsContainer);
         container.appendChild(sizeLabel);
         container.appendChild(sizeInput);
