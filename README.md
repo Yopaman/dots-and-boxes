@@ -17,7 +17,6 @@ cd dots-and-boxes
 ```bash
 npm install
 ```
-
 3. You can run a small dev server
 ```bash
 npm run dev
