@@ -113,7 +113,6 @@ export default class UI_Creation extends HTMLElement {
             "active:bg-blue-800",
             "shadow-md",
             "hover:shadow-lg"
-
         )
         
         const inputsContainer = document.createElement("div")
