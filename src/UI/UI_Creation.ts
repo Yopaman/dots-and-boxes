@@ -103,7 +103,7 @@ export default class UI_Creation extends HTMLElement {
         // Tailwind
         validateButton.classList.add(
             "absolute",
-            "bottom-3",
+            "bottom-5",
             "h-10",
             "w-2/4",
             "bg-blue-600",
