@@ -3129,7 +3129,7 @@ class UI_Infos extends HTMLElement {
         const scoreDiv = document.createElement("div");
         scoreDiv.classList.add("scores");
         // Tailwind
-        scoreDiv.classList.add("w-1/2", "sm:w-fit", "flex", "justify-between", "mb-2");
+        scoreDiv.classList.add("w-3/4", "sm:w-fit", "flex", "justify-between", "mb-2");
         scoreDiv.appendChild(score1);
         scoreDiv.appendChild(score2);
         container.appendChild(scoreDiv);

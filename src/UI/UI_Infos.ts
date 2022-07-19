@@ -61,7 +61,7 @@ export default class UI_Infos extends HTMLElement {
 
         // Tailwind
         scoreDiv.classList.add(
-            "w-1/2",
+            "w-3/4",
             "sm:w-fit",
             "flex",
             "justify-between",
