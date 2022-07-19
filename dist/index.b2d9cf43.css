@@ -308,6 +308,10 @@ img, video {
   margin-bottom: 1.25rem;
 }
 
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
 .mt-10 {
   margin-top: 2.5rem;
 }
@@ -322,10 +326,6 @@ img, video {
 
 .mb-2 {
   margin-bottom: .5rem;
-}
-
-.mt-5 {
-  margin-top: 1.25rem;
 }
 
 .flex {
@@ -683,10 +683,6 @@ td.background-red {
     height: 50%;
   }
 
-  .sm\:h-1\/4 {
-    height: 25%;
-  }
-
   .sm\:h-fit {
     height: fit-content;
   }
@@ -695,12 +691,12 @@ td.background-red {
     width: 50%;
   }
 
-  .sm\:w-fit {
-    width: fit-content;
-  }
-
   .sm\:w-1\/4 {
     width: 25%;
+  }
+
+  .sm\:w-fit {
+    width: fit-content;
   }
 }
 

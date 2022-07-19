@@ -1,7 +1,4 @@
-import {Board} from "../Board";
-import UI_Board from "./UI_Board";
-import {Game} from "../Game";
-import UI_Infos from "./UI_Infos";
+import party from "party-js"
 
 export default class UI_End extends HTMLElement {
 
@@ -10,6 +7,9 @@ export default class UI_End extends HTMLElement {
         replayButton!.addEventListener("click", () => {
             this.replay()
         })
+        party.confetti(replayButton!, {
+            count: party.variation.range(20, 40),
+        });
     }
 
     constructor() {
