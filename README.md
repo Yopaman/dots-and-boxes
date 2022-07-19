@@ -29,7 +29,7 @@ npm run build
 ## Roadmap
 
 - [x] Add an end screen/end of game detection
-- [ ] Improve the UI
-- [ ] Make the UI responsive
+- [X] Improve UI
+- [ ] Add game rules
 - [ ] Add an AI player
 - [ ] Add online mode
