@@ -43,7 +43,7 @@ export default class UI_Creation extends HTMLElement {
             "m-auto",
             "w-full",
             "sm:w-1/2",
-            "h-2/5",
+            "h-fit",
             "sm:h-1/2",
             "bg-white",
             "shadow-sm",
@@ -124,6 +124,8 @@ export default class UI_Creation extends HTMLElement {
         inputsContainer.classList.add(
             "w-3/4",
             "mb-5",
+            "mt-16",
+            "sm:mt-0",
             "flex",
             "flex-row",
             "justify-between"
@@ -147,7 +149,8 @@ export default class UI_Creation extends HTMLElement {
             "border-slate-300",
             "pl-1",
             "text-slate-600",
-            "mb-5"
+            "mb-20",
+            "sm:mb-0"
         )
 
         container.appendChild(title)
