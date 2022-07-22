@@ -30,7 +30,7 @@ npm run build
 
 - [x] Add an end screen/end of game detection
 - [X] Improve UI
-- [ ] Add home page
+- [X] Add home page
 - [ ] Add game rules
 - [ ] Add an AI player
 - [ ] Add online mode
