@@ -17,6 +17,7 @@ pub struct Board {
 pub enum BoardError {
     OutOfBoardError,
     AlreadyClickedError,
+    InvalidNumber,
 }
 
 pub enum Side {
@@ -26,9 +27,24 @@ pub enum Side {
     Bottom,
 }
 
+impl Side {
+    pub fn from_num(num: u8) -> Result<Self, BoardError> {
+        match num {
+            0 => Ok(Side::Top),
+            1 => Ok(Side::Right),
+            2 => Ok(Side::Bottom),
+            3 => Ok(Side::Left),
+            _ => Err(BoardError::InvalidNumber),
+        }
+    }
+}
+
 impl Board {
     pub fn new(size_x: u32, size_y: u32) -> Self {
-        let lines = vec![Line::Unclicked; (size_x * size_y + size_y) as usize];
+        let lines = vec![
+            Line::Unclicked;
+            (3 * size_y * size_x + size_x + size_y + 3 * size_x + 1) as usize
+        ];
         Board {
             lines,
             size_x,
@@ -40,7 +56,7 @@ impl Board {
         x < self.size_x && y < self.size_y
     }
 
-    fn get_line_index(&self, x: u32, y: u32, side: Side) -> usize {
+    pub fn get_line_index(&self, x: u32, y: u32, side: Side) -> usize {
         match side {
             Side::Top => (y * 3 * (self.size_x - 1) + x + y) as usize,
             Side::Bottom => {
@@ -49,6 +65,13 @@ impl Board {
             Side::Right => (y * 3 * (self.size_x - 1) + x + y + 2 * (self.size_x - 1)) as usize,
             Side::Left => (y * 3 * (self.size_x - 1) + x + y + 2 * (self.size_x - 1) - 1) as usize,
         }
+    }
+
+    pub fn is_square_full(&self, x: u32, y: u32) -> bool {
+        self.lines[self.get_line_index(x, y, Side::Top)] != Line::Unclicked
+            && self.lines[self.get_line_index(x, y, Side::Bottom)] != Line::Unclicked
+            && self.lines[self.get_line_index(x, y, Side::Left)] != Line::Unclicked
+            && self.lines[self.get_line_index(x, y, Side::Right)] != Line::Unclicked
     }
 
     pub fn set_line(
@@ -69,6 +92,12 @@ impl Board {
         } else {
             Err(BoardError::OutOfBoardError)
         }
+    }
+
+    pub fn is_full(&self) -> bool {
+        self.lines
+            .iter()
+            .all(|l| l == &Line::ClickedBy1 || l == &Line::ClickedBy2)
     }
 }
 
@@ -133,5 +162,11 @@ mod tests {
         );
         let _ = board.set_line(0, 0, Side::Top, Line::ClickedBy2);
         assert_eq!(board.lines[0], Line::ClickedBy2);
+    }
+    #[test]
+    fn is_full_test() {
+        let mut board = Board::new(3, 3);
+        board.lines.iter_mut().for_each(|l| *l = Line::ClickedBy1);
+        assert!(board.is_full());
     }
 }
